@@ -5,6 +5,10 @@
           options_for_select([[Spree.t(:all_departments), '']] +
                                 @taxons.map {|t| [t.name, t.id]},
                                 @taxon ? @taxon.id : params[:taxon]), 'aria-label' => 'Taxon' %>
+    <%= select_tag :sort_by,
+          options_for_select([['Sort By:', ''],['Name ASC', 'ascend_by_name'], ['Name DESC', 'descend_by_name'],
+                               ['Oldest first', 'ascend_by_created_at'], ['Latest first', 'descend_by_created_at']],
+                               [params[:sort_by]]), 'aria-label' => 'Sort By' %>
   <% end %>
   <%= search_field_tag :keywords, params[:keywords], placeholder: Spree.t(:search) %>
   <%= submit_tag Spree.t(:search), name: nil %>

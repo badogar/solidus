@@ -10,7 +10,7 @@ module Spree
 
     def index
       @searcher = build_searcher(params.merge(include_images: true))
-      @products = @searcher.retrieve_products
+      @products = @searcher.retrieve_products.send(sorting_param)
       @taxonomies = Spree::Taxonomy.includes(root: :children)
     end
 
@@ -26,6 +26,22 @@ module Spree
     end
 
     private
+
+    def sorting_param
+      params[:sort_by].try(:to_sym) || default_sorting
+    end
+
+    def sorting_scope
+      allowed_sortings.include?(sorting_param) ? sorting_param : default_sorting
+    end
+
+    def default_sorting
+      :ascend_by_created_at
+    end
+
+    def allowed_sortings
+      [:ascend_by_created_at, :descend_by_created_at, :ascend_by_name, :descend_by_name]
+    end
 
     def accurate_title
       if @product

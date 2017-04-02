@@ -18,6 +18,8 @@ module Spree
       end
     end
 
+    scope :ascend_by_created_at, -> { order(created_at: :asc) }
+    scope :descend_by_created_at, -> { order(created_at: :desc) }
     scope :ascend_by_updated_at, -> { order(updated_at: :asc) }
     scope :descend_by_updated_at, -> { order(updated_at: :desc) }
     scope :ascend_by_name, -> { order(name: :asc) }
